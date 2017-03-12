@@ -25,23 +25,27 @@ namespace MasterDetail.DataStores
 
         public WordsDataStore()
         {
-            ReloadAsync();
+            StartupAsync();
+        }
+
+        private async Task StartupAsync()
+        {
+            await LoginAsync();
+            Reload();
         }
 
         private async Task LoginAsync()
         {
-            if (User == null)
-            {
-                var credentials = Credentials.UsernamePassword(AppCredentials.UserName, AppCredentials.Password, false);
-                User = await User.LoginAsync(credentials, new Uri(AppCredentials.AuthUrl));
-                Debug.WriteLine(User.Identity);
-                SyncConfiguration = new SyncConfiguration(User, new Uri(AppCredentials.DatabaseUrl));
-            }
+            var credentials = Credentials.UsernamePassword(AppCredentials.UserName, AppCredentials.Password, false);
+            User = await User.LoginAsync(credentials, new Uri(AppCredentials.AuthUrl));
+            SyncConfiguration = new SyncConfiguration(User, new Uri(AppCredentials.DatabaseUrl));
+
+            var realm = Realm.GetInstance(SyncConfiguration);
+            realm.All<RealmModels.Item>().AsRealmCollection().CollectionChanged += (sender, e) => Reload();
         }
 
-        private async Task ReloadAsync()
+        private void Reload()
         {
-            await LoginAsync();
             using (var realm = Realm.GetInstance(SyncConfiguration))
             {
                 Items.Value = realm.All<RealmModels.Item>()
@@ -53,7 +57,6 @@ namespace MasterDetail.DataStores
 
         public async Task AddItemAsync(Item item)
         {
-            await LoginAsync();
             using (var realm = Realm.GetInstance(SyncConfiguration))
             {
                 await realm.WriteAsync(r => r.Add(new RealmModels.Item
@@ -62,7 +65,6 @@ namespace MasterDetail.DataStores
                         Description = item.Description
                     })
                 );
-                await ReloadAsync();
             }
         }
     }
