@@ -179,6 +179,7 @@
     <Compile Include="Views\BrowserViewController.designer.cs">
       <DependentUpon>BrowserViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="LinkerPleaseInclude.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
