@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MasterDetail.Models;
 using Reactive.Bindings;
+using Realms;
 
 namespace MasterDetail.DataStores
 {
@@ -19,14 +21,35 @@ namespace MasterDetail.DataStores
             new Item { Title = "Sharp", Description = "C# is very sharp!"}
         });
 
-        public Task AddItemAsync(Item item)
+        public WordsDataStore()
         {
-            return Task.Run(() =>
+            Reload();
+        }
+
+        private void Reload()
+        {
+            using (var realm = Realm.GetInstance())
             {
-                var items = new List<Item>(Items.Value);
-                items.Add(item);
-                Items.Value = items;
-            });
+                Items.Value = realm.All<RealmModels.Item>()
+                    .ToList() // 一度 List<T> にしないと Select できない (Realm がサポートしていない)
+                    .Select(v => v.ToItem())
+                    .ToList();
+            }
+        }
+
+        public async Task AddItemAsync(Item item)
+        {
+            using (var realm = Realm.GetInstance())
+            {
+                await realm.WriteAsync(r => r.Add(new RealmModels.Item
+                    {
+                        Title = item.Title,
+                        Description = item.Description
+
+                    })
+                );
+                Reload();
+            }
         }
     }
 }
