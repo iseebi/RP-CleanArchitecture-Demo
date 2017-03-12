@@ -41,6 +41,7 @@
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\IViewLifecycleWatching.cs" />
     <Compile Include="WeakReferenceExtensions.cs" />
+    <Compile Include="AppCredentials.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616">

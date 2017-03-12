@@ -287,3 +287,5 @@ __pycache__/
 
 # Realm
 Tools/RealmWeaver.Fody.dll
+
+MasterDetail/AppCredentials.cs
