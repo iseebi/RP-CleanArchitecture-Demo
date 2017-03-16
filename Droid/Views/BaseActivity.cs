@@ -1,6 +1,8 @@
 ﻿using System;
+using Android.App;
 using GalaSoft.MvvmLight.Views;
 using MasterDetail.ViewModels;
+using Microsoft.Practices.Unity;
 using MasterDetail.Views;
 
 namespace MasterDetail.Droid.Views
@@ -13,145 +15,100 @@ namespace MasterDetail.Droid.Views
 
     internal static class ViewExtensions
     {
-        public static void OnBeforeViewDidLoad<TVc, TVm>(this TVc viewController)
-            where TVc : UIViewController, IView<TVm>
+        public static void OnBeforeCreated<TActivity, TVm>(this TActivity activity)
+            where TActivity : Activity, IView<TVm>
             where TVm : IViewModel
         {
-            var view = viewController as IView<TVm>;
+            var view = activity as IView<TVm>;
             view.ViewModel = App.Current.ViewModelLocator.Create<TVm>();
         }
 
-        public static void OnAfterViewDidLoad<TVc, TVm>(this TVc viewController)
-            where TVc : UIViewController, IView<TVm>
+        public static void OnAfterCreated<TActivity, TVm>(this TActivity activity)
+            where TActivity : Activity, IView<TVm>
             where TVm : IViewModel
         {
-            var view = viewController as IView<TVm>;
+            var view = activity as IView<TVm>;
             var watching = view.ViewModel as IViewLifecycleWatching;
             var navigationService = App.Current.Container.Resolve<INavigationService>() as NavigationService;
 
-            watching?.OnLoad(navigationService?.GetAndRemoveParameter(viewController));
+            watching?.OnLoad(navigationService?.GetAndRemoveParameter(activity.Intent));
         }
 
-        public static void OnWillAppear<TVc, TVm>(this TVc viewController)
-            where TVc : UIViewController, IView<TVm>
+        public static void OnStartCalled<TActivity, TVm>(this TActivity activity)
+            where TActivity : Activity, IView<TVm>
             where TVm : IViewModel
         {
-            var view = viewController as IView<TVm>;
+            var view = activity as IView<TVm>;
             var watching = view.ViewModel as IViewLifecycleWatching;
 
             watching?.OnWillAppear();
         }
 
-        public static void OnDidAppear<TVc, TVm>(this TVc viewController)
-            where TVc : UIViewController, IView<TVm>
+        public static void OnResumeCalled<TActivity, TVm>(this TActivity activity)
+            where TActivity : Activity, IView<TVm>
             where TVm : IViewModel
         {
-            var view = viewController as IView<TVm>;
+            var view = activity as IView<TVm>;
             var watching = view.ViewModel as IViewLifecycleWatching;
 
             watching?.OnDidAppear();
         }
 
-        public static void OnWillDisappear<TVc, TVm>(this TVc viewController)
-            where TVc : UIViewController, IView<TVm>
+        public static void OnPauseCalled<TActivity, TVm>(this TActivity activity)
+            where TActivity : Activity, IView<TVm>
             where TVm : IViewModel
         {
-            var view = viewController as IView<TVm>;
+            var view = activity as IView<TVm>;
             var watching = view.ViewModel as IViewLifecycleWatching;
 
             watching?.OnWillDisappear();
         }
 
-        public static void OnDidDisappear<TVc, TVm>(this TVc viewController)
-            where TVc : UIViewController, IView<TVm>
+        public static void OnStopCalled<TActivity, TVm>(this TActivity activity)
+            where TActivity : Activity, IView<TVm>
             where TVm : IViewModel
         {
-            var view = viewController as IView<TVm>;
+            var view = activity as IView<TVm>;
             var watching = view.ViewModel as IViewLifecycleWatching;
 
             watching?.OnDidDisappear();
         }
     }
 
-    public class BaseViewController<T> : UIViewController, IView<T>
+    public class BaseActivity<T> : Activity, IView<T>
         where T : IViewModel
     {
         public T ViewModel { get; set; }
 
-        public BaseViewController(IntPtr handle) : base (handle)
+        protected override void OnCreate(Android.OS.Bundle savedInstanceState)
         {
+            this.OnBeforeCreated<BaseActivity<T>, T>();
+            base.OnCreate(savedInstanceState);
+            this.OnAfterCreated<BaseActivity<T>, T>();
         }
 
-        public override void ViewDidLoad()
+        protected override void OnStart()
         {
-            this.OnBeforeViewDidLoad<BaseViewController<T>, T>();
-            base.ViewDidLoad();
-            this.OnAfterViewDidLoad<BaseViewController<T>, T>();
+            base.OnStart();
+            this.OnStartCalled<BaseActivity<T>, T>();
         }
 
-        public override void ViewWillAppear(bool animated)
+        protected override void OnResume()
         {
-            base.ViewWillAppear(animated);
-            this.OnWillAppear<BaseViewController<T>, T>();
+            base.OnResume();
+            this.OnResumeCalled<BaseActivity<T>, T>();
         }
 
-        public override void ViewDidAppear(bool animated)
+        protected override void OnPause()
         {
-            base.ViewDidAppear(animated);
-            this.OnDidAppear<BaseViewController<T>, T>();
+            base.OnPause();
+            this.OnPauseCalled<BaseActivity<T>, T>();
         }
 
-        public override void ViewWillDisappear(bool animated)
+        protected override void OnStop()
         {
-            base.ViewWillDisappear(animated);
-            this.OnWillDisappear<BaseViewController<T>, T>();
-        }
-
-        public override void ViewDidDisappear(bool animated)
-        {
-            base.ViewDidDisappear(animated);
-            this.OnDidDisappear<BaseViewController<T>, T>();
-        }
-    }
-
-    public class BaseTableViewController<T> : UITableViewController, IView<T>
-        where T : IViewModel
-    {
-        public T ViewModel { get; set; }
-
-        public BaseTableViewController(IntPtr handle) : base (handle)
-        {
-        }
-
-        public override void ViewDidLoad()
-        {
-            this.OnBeforeViewDidLoad<BaseTableViewController<T>, T>();
-            base.ViewDidLoad();
-            this.OnAfterViewDidLoad<BaseTableViewController<T>, T>();
-        }
-
-        public override void ViewWillAppear(bool animated)
-        {
-            base.ViewWillAppear(animated);
-            this.OnWillAppear<BaseTableViewController<T>, T>();
-        }
-
-        public override void ViewDidAppear(bool animated)
-        {
-            base.ViewDidAppear(animated);
-            this.OnDidAppear<BaseTableViewController<T>, T>();
-        }
-
-        public override void ViewWillDisappear(bool animated)
-        {
-            base.ViewWillDisappear(animated);
-            this.OnWillDisappear<BaseTableViewController<T>, T>();
-        }
-
-        public override void ViewDidDisappear(bool animated)
-        {
-            base.ViewDidDisappear(animated);
-            this.OnDidDisappear<BaseTableViewController<T>, T>();
+            base.OnStop();
+            this.OnStopCalled<BaseActivity<T>, T>();
         }
     }
 }

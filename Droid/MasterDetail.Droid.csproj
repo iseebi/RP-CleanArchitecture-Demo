@@ -100,6 +100,10 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\BaseActivity.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Views\BrowseActivity.cs" />
+    <Compile Include="Views\NewItemActivity.cs" />
+    <Compile Include="Views\DetailActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -115,6 +119,10 @@
     <AndroidResource Include="Resources\mipmap-xhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
+    <AndroidResource Include="Resources\layout\Browse.axml" />
+    <AndroidResource Include="Resources\layout\ListItem_Browse.axml" />
+    <AndroidResource Include="Resources\layout\NewItem.axml" />
+    <AndroidResource Include="Resources\layout\Detail.axml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
