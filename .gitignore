@@ -284,3 +284,10 @@ __pycache__/
 # !tools/packages.config
 
 # End of https://www.gitignore.io/api/xamarinstudio,csharp
+
+# Realm
+Tools/RealmWeaver.Fody.dll
+
+MasterDetail/AppCredentials.cs
+
+Droid/Resources/Resource.designer.cs

@@ -31,6 +31,7 @@
     <Compile Include="DataStores\WordsDataStore.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RealmModels\Item.cs" />
     <Compile Include="Repositories\WordsRepository.cs" />
     <Compile Include="Scenes\WordsScene.cs" />
     <Compile Include="ViewModels\BrowseViewModel.cs" />
@@ -40,6 +41,7 @@
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\IViewLifecycleWatching.cs" />
     <Compile Include="WeakReferenceExtensions.cs" />
+    <Compile Include="AppCredentials.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616">
@@ -69,6 +71,18 @@
     <Reference Include="System.Reactive.PlatformServices, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263">
       <HintPath>..\packages\System.Reactive.PlatformServices.3.0.0\lib\netstandard1.0\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetCross.Memory.Unsafe">
+      <HintPath>..\packages\DotNetCross.Memory.Unsafe.0.2.2\lib\portable-net40+win8+sl4+wp7\DotNetCross.Memory.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq">
+      <HintPath>..\packages\Remotion.Linq.2.1.1\lib\portable-net45+win+wpa81+wp80\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Realm">
+      <HintPath>..\packages\Realm.Database.1.1.0\lib\portable-net45+sl5+wp8+wpa81+win8+monoandroid+Xamarin.iOS10+monotouch+Xamarin.Mac\Realm.dll</HintPath>
+    </Reference>
+    <Reference Include="Realm.Sync">
+      <HintPath>..\packages\Realm.1.1.0\lib\portable-net45+sl5+wp8+wpa81+win8+monoandroid+Xamarin.iOS10+monotouch+Xamarin.Mac\Realm.Sync.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -76,5 +90,11 @@
   <ItemGroup>
     <Folder Include="Extensions" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="FodyWeavers.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
+  <Import Project="..\packages\Realm.Database.1.1.0\build\Realm.Database.targets" Condition="Exists('..\packages\Realm.Database.1.1.0\build\Realm.Database.targets')" />
+  <Import Project="..\packages\Realm.1.1.0\build\Realm.targets" Condition="Exists('..\packages\Realm.1.1.0\build\Realm.targets')" />
 </Project>
