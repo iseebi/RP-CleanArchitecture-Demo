@@ -289,3 +289,5 @@ __pycache__/
 Tools/RealmWeaver.Fody.dll
 
 MasterDetail/AppCredentials.cs
+
+Droid/Resouces/Resource.designer.cs
