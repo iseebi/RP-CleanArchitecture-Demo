@@ -20,6 +20,14 @@ namespace MasterDetail.Droid.Views
     [Activity(Label = "NewItemActivity")]
     public class NewItemActivity : BaseActivity<NewItemViewModel>
     {
+        public NewItemActivity()
+        {
+        }
+
+        public NewItemActivity(IntPtr javaReference, Android.Runtime.JniHandleOwnership transfer) : base(javaReference, transfer)
+        {
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);

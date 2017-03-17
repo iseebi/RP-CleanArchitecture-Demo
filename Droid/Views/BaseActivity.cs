@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Views;
 using MasterDetail.ViewModels;
 using Microsoft.Practices.Unity;
 using MasterDetail.Views;
+using Android.Runtime;
 
 namespace MasterDetail.Droid.Views
 {
@@ -75,10 +76,18 @@ namespace MasterDetail.Droid.Views
         }
     }
 
-    public class BaseActivity<T> : Activity, IView<T>
+    public abstract class BaseActivity<T> : Activity, IView<T>
         where T : IViewModel
     {
         public T ViewModel { get; set; }
+
+        public BaseActivity()
+        {
+        }
+
+        public BaseActivity(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+        {
+        }
 
         protected override void OnCreate(Android.OS.Bundle savedInstanceState)
         {

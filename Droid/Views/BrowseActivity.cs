@@ -12,6 +12,13 @@ namespace MasterDetail.Droid.Views
     public class BrowseActivity : BaseActivity<BrowseViewModel>
     {
         List<Models.Item> Items = new List<Models.Item>();
+        public BrowseActivity()
+        {
+        }
+
+        public BrowseActivity(IntPtr javaReference, Android.Runtime.JniHandleOwnership transfer) : base(javaReference, transfer)
+        {
+        }
 
         protected override void OnCreate(Android.OS.Bundle savedInstanceState)
         {

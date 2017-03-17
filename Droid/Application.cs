@@ -1,4 +1,6 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
+using Android.Runtime;
 using GalaSoft.MvvmLight.Views;
 
 namespace MasterDetail.Droid
@@ -6,6 +8,10 @@ namespace MasterDetail.Droid
     [Application]
     public class Application : Android.App.Application
     {
+        public Application(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+        {
+        }
+
         public override void OnCreate()
         {
             base.OnCreate();

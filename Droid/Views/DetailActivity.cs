@@ -18,6 +18,14 @@ namespace MasterDetail.Droid.Views
     [Activity(Label = "DetailActivity")]
     public class DetailActivity : BaseActivity<DetailViewModel>
     {
+        public DetailActivity()
+        {
+        }
+
+        public DetailActivity(IntPtr javaReference, Android.Runtime.JniHandleOwnership transfer) : base(javaReference, transfer)
+        {
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
