@@ -12,6 +12,8 @@ namespace MasterDetail.Droid.Views
     public class BrowseActivity : BaseActivity<BrowseViewModel>
     {
         List<Models.Item> Items = new List<Models.Item>();
+
+        /*
         public BrowseActivity()
         {
         }
@@ -19,6 +21,7 @@ namespace MasterDetail.Droid.Views
         public BrowseActivity(IntPtr javaReference, Android.Runtime.JniHandleOwnership transfer) : base(javaReference, transfer)
         {
         }
+        */
 
         protected override void OnCreate(Android.OS.Bundle savedInstanceState)
         {
@@ -40,7 +43,7 @@ namespace MasterDetail.Droid.Views
             {
                 var strongThis = weakThis.Resolve();
                 if (strongThis == null) { return null; }
-                var view = strongThis.LayoutInflater.Inflate(Resource.Layout.ListItem_Browse, listView);
+                var view = strongThis.LayoutInflater.Inflate(Resource.Layout.ListItem_Browse, null);
                 var holder = new ViewHolder
                 {
                     TitleTextView = view.FindViewById<TextView>(Resource.Id.text_title),
@@ -54,8 +57,9 @@ namespace MasterDetail.Droid.Views
                 holder.TitleTextView.Text = item.Title;
                 holder.DescriptionTextView.Text = item.Description;
             });
+            listView.Adapter = adapter;
 
-            ViewModel.Items.Subscribe(items =>
+            ViewModel.Items.Where(v => v != null).Subscribe(items =>
             {
                 var strongThis = weakThis.Resolve();
                 if (strongThis == null) { return; }

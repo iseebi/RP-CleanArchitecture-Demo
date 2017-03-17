@@ -76,11 +76,12 @@ namespace MasterDetail.Droid.Views
         }
     }
 
-    public abstract class BaseActivity<T> : Activity, IView<T>
+    public abstract class BaseActivity<T> : ActivityBase, IView<T>
         where T : IViewModel
     {
         public T ViewModel { get; set; }
 
+        /*
         public BaseActivity()
         {
         }
@@ -88,6 +89,7 @@ namespace MasterDetail.Droid.Views
         public BaseActivity(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
         }
+        */
 
         protected override void OnCreate(Android.OS.Bundle savedInstanceState)
         {

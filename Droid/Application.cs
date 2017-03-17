@@ -19,7 +19,9 @@ namespace MasterDetail.Droid
             var navigationService = new NavigationService();
             var dialogService = new DialogService();
 
-            navigationService.Configure(nameof(ViewModels.BrowseViewModel), typeof(Views.BrowseActivity));
+            navigationService.Configure("Browse", typeof(Views.BrowseActivity));
+            navigationService.Configure("Detail", typeof(Views.DetailActivity));
+            navigationService.Configure("NewItem", typeof(Views.NewItemActivity));
 
             App.Initialize(navigationService, dialogService);
         }

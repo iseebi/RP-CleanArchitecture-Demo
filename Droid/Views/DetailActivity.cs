@@ -18,6 +18,7 @@ namespace MasterDetail.Droid.Views
     [Activity(Label = "DetailActivity")]
     public class DetailActivity : BaseActivity<DetailViewModel>
     {
+        /*
         public DetailActivity()
         {
         }
@@ -25,6 +26,7 @@ namespace MasterDetail.Droid.Views
         public DetailActivity(IntPtr javaReference, Android.Runtime.JniHandleOwnership transfer) : base(javaReference, transfer)
         {
         }
+        */
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
