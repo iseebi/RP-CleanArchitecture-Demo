@@ -36,9 +36,16 @@ namespace MasterDetail.DataStores
 
         private async Task LoginAsync()
         {
-            var credentials = Credentials.UsernamePassword(AppCredentials.UserName, AppCredentials.Password, false);
-            User = await User.LoginAsync(credentials, new Uri(AppCredentials.AuthUrl));
-            SyncConfiguration = new SyncConfiguration(User, new Uri(AppCredentials.DatabaseUrl));
+            if (Realms.Sync.User.Current != null)
+            {
+                User = Realms.Sync.User.Current;
+            }
+            else
+            {
+                var credentials = Credentials.UsernamePassword(AppCredentials.UserName, AppCredentials.Password, false);
+                this.User = await User.LoginAsync(credentials, new Uri(AppCredentials.AuthUrl));
+            }
+            SyncConfiguration = new SyncConfiguration(this.User, new Uri(AppCredentials.DatabaseUrl));
 
             var realm = Realm.GetInstance(SyncConfiguration);
             realm.All<RealmModels.Item>().AsRealmCollection().CollectionChanged += (sender, e) => Reload();
